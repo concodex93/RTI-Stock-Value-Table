@@ -1,0 +1,9 @@
+.wrapper {
+  padding: 25px 50px 75px 100px;
+  display: flex;
+  flex-direction: column;
+}
+
+.desciptor{
+  padding: 5px;
+}
