@@ -3,13 +3,18 @@ import React, { useState } from 'react';
 import Table from './Table/Table';
 import createAxios from './Api/quote';
 import Input from './Input';
+import Graph from './Graph';
 
 import '../styles/App.css';
 
 const App = () => {
   // Hook State
-  const [quotes, setQuotes] = useState({});
-  const [earnings, setEarnings] = useState([]);
+  const [quotes, setQuotes] = useState([]);
+  // const [earnings, setEarnings] = useState([]);
+  const [stocks, setStocks] = useState({});
+  const [searches, setSearch] = useState({});
+
+  const columns = ['Current', 'Open', 'Closed', 'EPS', 'P/E Ratio'];
 
   const getData = async (action, symbol) => {
     try {
@@ -17,9 +22,19 @@ const App = () => {
       if (response.status !== 200) {
         console.log(`Something went wrong : ${response.status}`);
       } else {
-        action === 'quote'
-          ? setQuotes(response.data)
-          : setEarnings(response.data);
+        switch (action) {
+          case 'TIME_SERIES_DAILY':
+            setStocks(response.data);
+            break;
+          case 'quote':
+            setQuotes(response.data);
+            break;
+          case 'SYMBOL_SEARCH':
+            setSearch(response.data);
+            break;
+          default:
+            break;
+        }
       }
     } catch (error) {
       console.log('Ops, something happened before the request was sent!');
@@ -29,10 +44,8 @@ const App = () => {
   const onFormSubmit = input => {
     if (input) {
       const upperInput = input.toUpperCase();
-      // Get quote data
       getData('quote', upperInput);
-      // Get earning data
-      getData('stock/earnings', upperInput);
+      getData('TIME_SERIES_DAILY', upperInput);
     }
   };
 
@@ -41,8 +54,13 @@ const App = () => {
       <div className="desciptor">
         <span>Enter a stock symbol to get latest market prices</span>
       </div>
-      <Input onFormSubmit={onFormSubmit} />
-      <Table quotes={quotes} earnings={earnings} />
+      <Input
+        searches={searches}
+        getData={getData}
+        onFormSubmit={onFormSubmit}
+      />
+      <Table columns={columns} quotes={quotes} />
+      <Graph stocks={stocks} />
     </div>
   );
 };

@@ -2,4 +2,6 @@
   width: 25%;
 }
 
-
+.search-prompt-wrapper {
+  display: flex;
+}
