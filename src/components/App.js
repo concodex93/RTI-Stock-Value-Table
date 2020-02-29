@@ -10,7 +10,7 @@ import '../styles/App.css';
 const App = () => {
   // Hook State
   const [quotes, setQuotes] = useState([]);
-  // const [earnings, setEarnings] = useState([]);
+  const [earnings, setEarnings] = useState([]);
   const [stocks, setStocks] = useState({});
   const [searches, setSearch] = useState({});
 
@@ -29,6 +29,9 @@ const App = () => {
           case 'quote':
             setQuotes(response.data);
             break;
+          case 'earnings':
+            setEarnings(response.data);
+            break;
           case 'SYMBOL_SEARCH':
             setSearch(response.data);
             break;
@@ -45,6 +48,7 @@ const App = () => {
     if (input) {
       const upperInput = input.toUpperCase();
       getData('quote', upperInput);
+      getData('earnings', upperInput);
       getData('TIME_SERIES_DAILY', upperInput);
     }
   };
@@ -59,7 +63,7 @@ const App = () => {
         getData={getData}
         onFormSubmit={onFormSubmit}
       />
-      <Table columns={columns} quotes={quotes} />
+      <Table columns={columns} quotes={quotes} earnings={earnings} />
       <Graph stocks={stocks} />
     </div>
   );

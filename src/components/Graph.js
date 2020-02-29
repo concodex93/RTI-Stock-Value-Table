@@ -5,7 +5,6 @@ import '../styles/Graph.css';
 
 const Graph = props => {
   const stocks = props.stocks['Time Series (Daily)'];
-  console.log(stocks);
 
   const stock = [];
   const labels = [];

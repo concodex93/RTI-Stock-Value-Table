@@ -16,6 +16,10 @@ const createAxios = (action, symbol) => {
     return axios.create({
       baseURL: `https://finnhub.io/api/v1/${action}?symbol=${symbol}&token=${API_KEY1}`
     });
+  } else if (action === 'earnings') {
+    return axios.create({
+      baseURL: `https://finnhub.io/api/v1/stock/${action}?symbol=${symbol}&token=${API_KEY1}`
+    });
   }
 };
 
